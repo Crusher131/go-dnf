@@ -43,11 +43,15 @@ func (a *godnf) Install(packageName string, opt *Options) error {
 }
 
 func (a *godnf) Update(packageName string, opt *Options) error {
-	return a.runner(func() ([]string, error) { return []string{}, nil }, opt)
+	return a.runner(func() ([]string, error) {
+		return []string{}, nil
+	}, opt)
 }
 
 func (a *godnf) Depends(packageName string, opt *Options) error {
-	return a.runner(func() ([]string, error) { return []string{}, nil }, opt)
+	return a.runner(func() ([]string, error) {
+		return []string{}, nil
+	}, opt)
 }
 
 func (a *godnf) Remove(packageName string, opt *Options) error {
@@ -69,7 +73,9 @@ func (a *godnf) Search(packageName string, opt *Options) error {
 }
 
 func (a *godnf) List(opt *Options) error {
-	return a.runner(func() ([]string, error) { return []string{}, nil }, opt)
+	return a.runner(func() ([]string, error) {
+		return []string{}, nil
+	}, opt)
 }
 
 func (a *godnf) runner(guest func() ([]string, error), opt *Options) error {
