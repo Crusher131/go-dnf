@@ -47,7 +47,10 @@ func (a *godnf) Install(packageName string, opt *Options) error {
 // the packages in the system.
 func (a *godnf) Update(packageName string, opt *Options) error {
 	return a.runner(func() ([]string, error) {
-		return []string{}, nil
+		if strings.TrimSpace(packageName) == "" {
+			return []string{"update"}, nil
+		}
+		return []string{"update", packageName}, nil
 	}, opt)
 }
 
