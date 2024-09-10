@@ -70,7 +70,7 @@ func (a *godnf) Remove(packageName string, opt *Options) error {
 		if strings.TrimSpace(packageName) == "" {
 			return nil, fmt.Errorf("Remove: %v", errPackageNameNotSpecified)
 		}
-		return []string{""}, nil
+		return []string{"remove", packageName}, nil
 	}, opt)
 }
 
