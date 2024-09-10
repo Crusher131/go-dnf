@@ -87,7 +87,7 @@ func (a *godnf) Search(packageName string, opt *Options) error {
 // List all installed packages.
 func (a *godnf) List(opt *Options) error {
 	return a.runner(func() ([]string, error) {
-		return []string{}, nil
+		return []string{"list", "installed"}, nil
 	}, opt)
 }
 
