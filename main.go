@@ -122,10 +122,19 @@ func (a *godnf) runner(
 	arguments = append(arguments, processOptions(opt)...)
 	command := execCommander().Command(a.binaryPath, arguments...)
 	if opt.Output != nil {
+		// TODO: add iomultiwriter
 		command.Stdout = opt.Output
 		command.Stderr = opt.Output
 	}
-	return nil, command.Run()
+	err = command.Run()
+	if err != nil {
+		return nil, err
+	}
+	parsed, err := parser("") // TODO: Pass here the command output
+	if err != nil {
+		return nil, err
+	}
+	return parsed, nil
 }
 
 // processOptions returns a slice of command-line flags to be passed to dnf.
