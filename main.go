@@ -57,7 +57,10 @@ func (a *godnf) Update(packageName string, opt *Options) error {
 // Obtains a list of dependencies from a packageName.
 func (a *godnf) Depends(packageName string, opt *Options) error {
 	return a.runner(func() ([]string, error) {
-		return []string{}, nil
+		if strings.TrimSpace(packageName) == "" {
+			return nil, fmt.Errorf("Depends: %v", errPackageNameNotSpecified)
+		}
+		return []string{"repoquery", "--deplist", packageName}, nil
 	}, opt)
 }
 
