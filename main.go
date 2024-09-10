@@ -33,6 +33,7 @@ var (
 	errPackageNameNotSpecified = errors.New("packageName was not specified.")
 )
 
+// Install a dnf package from its packageName.
 func (a *godnf) Install(packageName string, opt *Options) error {
 	return a.runner(func() ([]string, error) {
 		if strings.TrimSpace(packageName) == "" {
@@ -42,18 +43,22 @@ func (a *godnf) Install(packageName string, opt *Options) error {
 	}, opt)
 }
 
+// Update a packages from is packageName. If packageName is empty, updates all
+// the packages in the system.
 func (a *godnf) Update(packageName string, opt *Options) error {
 	return a.runner(func() ([]string, error) {
 		return []string{}, nil
 	}, opt)
 }
 
+// Obtains a list of dependencies from a packageName.
 func (a *godnf) Depends(packageName string, opt *Options) error {
 	return a.runner(func() ([]string, error) {
 		return []string{}, nil
 	}, opt)
 }
 
+// Remove a package from its packageName.
 func (a *godnf) Remove(packageName string, opt *Options) error {
 	return a.runner(func() ([]string, error) {
 		if strings.TrimSpace(packageName) == "" {
@@ -63,6 +68,7 @@ func (a *godnf) Remove(packageName string, opt *Options) error {
 	}, opt)
 }
 
+// Search a package from its packageName.
 func (a *godnf) Search(packageName string, opt *Options) error {
 	return a.runner(func() ([]string, error) {
 		if strings.TrimSpace(packageName) == "" {
@@ -72,12 +78,14 @@ func (a *godnf) Search(packageName string, opt *Options) error {
 	}, opt)
 }
 
+// List all installed packages.
 func (a *godnf) List(opt *Options) error {
 	return a.runner(func() ([]string, error) {
 		return []string{}, nil
 	}, opt)
 }
 
+// runner runs a guest command with opt *Options.
 func (a *godnf) runner(guest func() ([]string, error), opt *Options) error {
 	arguments, err := guest()
 	if err != nil {
