@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"os"
 	"strings"
 
 	"github.com/CREDOProject/sharedutils/shell"
@@ -125,8 +124,7 @@ func (a *godnf) runner(
 	command := execCommander().Command(a.binaryPath, arguments...)
 
 	var buffer bytes.Buffer
-	command.Stdout = io.MultiWriter(os.Stdout, &buffer)
-	command.Stderr = os.Stderr
+	command.Stdout = &buffer
 	if opt.Output != nil {
 		command.Stdout = io.MultiWriter(command.Stdout, opt.Output)
 		command.Stderr = io.MultiWriter(command.Stderr, opt.Output)
