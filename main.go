@@ -1,9 +1,11 @@
 package godnf
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"strings"
 
 	"github.com/CREDOProject/sharedutils/shell"
@@ -121,16 +123,19 @@ func (a *godnf) runner(
 	}
 	arguments = append(arguments, processOptions(opt)...)
 	command := execCommander().Command(a.binaryPath, arguments...)
+
+	var buffer bytes.Buffer
+	command.Stdout = io.MultiWriter(os.Stdout, &buffer)
+	command.Stderr = os.Stderr
 	if opt.Output != nil {
-		// TODO: add iomultiwriter
-		command.Stdout = opt.Output
-		command.Stderr = opt.Output
+		command.Stdout = io.MultiWriter(command.Stdout, opt.Output)
+		command.Stderr = io.MultiWriter(command.Stderr, opt.Output)
 	}
 	err = command.Run()
 	if err != nil {
 		return nil, err
 	}
-	parsed, err := parser("") // TODO: Pass here the command output
+	parsed, err := parser(buffer.String())
 	if err != nil {
 		return nil, err
 	}
