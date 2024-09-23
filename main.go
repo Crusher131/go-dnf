@@ -70,6 +70,20 @@ func (a *godnf) Update(packageName string, opt *Options) error {
 	return err
 }
 
+// upgrade a operational system.
+func (a *godnf) Upgrade(opt *Options) error {
+	_, err := a.runner(&runnerParams{
+		argumentBuilder: func() ([]string, error) {
+			return []string{"upgrade"}, nil
+		},
+		parser: func(string) ([]Package, error) {
+			return nil, nil
+		},
+		opt: opt,
+	})
+	return err
+}
+
 // Obtains a list of dependencies from a packageName.
 func (a *godnf) Depends(packageName string, opt *Options) error {
 	_, err := a.runner(&runnerParams{
